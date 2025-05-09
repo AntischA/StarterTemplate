@@ -1,0 +1,1 @@
+# Firebase Firestore and Storage functions
