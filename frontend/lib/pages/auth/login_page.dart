@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../home/home_page.dart';
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 

@@ -1,39 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-void main() => runApp(MyApp());
+import 'pages/auth/login_page.dart';
+import 'pages/home/home_page.dart';
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Starter App',
       theme: ThemeData(primarySwatch: Colors.teal),
-      home: Scaffold(
-        appBar: AppBar(title: Text('Starter ')),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.flutter_dash, size: 64, color: Colors.teal),
-              SizedBox(height: 16),
-              Text(
-                'Pozdrav iz novog MOŠ MISLIT ŠTO JE NOV  !',
-                style: TextStyle(fontSize: 24),
-              ),
-              Text(
-                'Drugi pozdrav Flutter !',
-                style: TextStyle(fontSize: 30),
-              ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  print('Kliknuto!');
-                },
-                child: Text('Kliknuti moraš mene '),
-              ),
-            ],
-          ),
-        ),
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          } else if (snapshot.hasData) {
+            return const HomePage();
+          } else {
+            return const LoginPage();
+          }
+        },
       ),
     );
   }
