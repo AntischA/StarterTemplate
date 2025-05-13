@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
       title: 'Starter App',
       theme: ThemeData(primarySwatch: Colors.teal),
       home: Scaffold(
-        appBar: AppBar(title: Text('Starter start this app')),
+        appBar: AppBar(title: Text('Starter ')),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
               Icon(Icons.flutter_dash, size: 64, color: Colors.teal),
               SizedBox(height: 16),
               Text(
-                'Pozdrav iz Flutter !',
+                'Pozdrav iz novog MOŠ MISLIT ŠTO JE NOV  !',
                 style: TextStyle(fontSize: 24),
               ),
               Text(
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
                 onPressed: () {
                   print('Kliknuto!');
                 },
-                child: Text('Klikni mene sada opet dva sssss'),
+                child: Text('Kliknuti moraš mene '),
               ),
             ],
           ),
