@@ -25,7 +25,7 @@ class RegisterPage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Image.asset("assets/images/register_illustration.png", height: 150),
+                Image.asset("assets/images/register_illustration.jpg", height: 150),
                 const SizedBox(height: 20),
                 const Text(
                   "Create New Account",
