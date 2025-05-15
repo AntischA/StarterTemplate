@@ -6,10 +6,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: const Center(
-        child: Text('Welcome to the Dashboard!'),
-      ),
+      body: Center(child: Text("Dobrodošao kući!")),
     );
   }
 }
