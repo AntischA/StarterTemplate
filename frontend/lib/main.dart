@@ -1,47 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'pages/hellopages/hello_page1.dart';
-import 'pages/home/home_page.dart';
 import 'pages/auth/login_page.dart';
+import 'pages/home/home_page.dart';
+import 'pages/hellopages/hello_page1.dart';
+import 'services/app_state_service.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.clear(); // Obriši sve spremljene vrijednosti
-  runApp(MyApp());
+void main() {
+  runApp(const MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
-  Future<Widget> getInitialPage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isRegistered = prefs.getBool('is_registered') ?? false;
-    bool isWelcomeSeen = prefs.getBool('is_welcome_seen') ?? false;
+  const MyApp({super.key});
 
-    print('isRegistered: $isRegistered');
-    print('isWelcomeSeen: $isWelcomeSeen');
+  Future<Widget> _determineStartPage() async {
+    final service = AppStateService();
 
-    if (isRegistered) {
-      return const HomePage();
-    } else if (isWelcomeSeen) {
-      return const LoginPage();
-    } else {
-      return const HelloPage1();
-    }
+    final welcomeSeen = await service.isWelcomeSeen;
+    final registered = await service.isRegistered;
+
+    if (!welcomeSeen) return const HelloPage1();
+    if (!registered) return const LoginPage();
+
+    return const HomePage();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Onboarding',
+      title: 'Starter App',
+      debugShowCheckedModeBanner: false,
       home: FutureBuilder<Widget>(
-        future: getInitialPage(),
+        future: _determineStartPage(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return snapshot.data!;
-          } else {
-            return const Center(child: CircularProgressIndicator());
+          if (!snapshot.hasData) {
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
           }
+          return snapshot.data!;
         },
       ),
     );

@@ -22,12 +22,10 @@ android {
     defaultConfig {
         applicationId = "com.example.app"
         minSdk = 23
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
     }
-
-    ndkVersion = "27.0.12077973" // <-- DODAJ OVO
 
 
     buildTypes {

@@ -1,22 +1,31 @@
+// login_page.dart
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'register_page.dart';
+import '../../services/app_state_service.dart';
 import '../home/home_page.dart';
+import 'register_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   void login(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('is_registered', true);
+    await AppStateService().setRegistered();
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
+      MaterialPageRoute(builder: (_) => const HomePage()),
     );
-  } // ← OVDJE je falio zatvarajući zagradu
+  }
+
+  void loginAsGuest(BuildContext context) async {
+    await AppStateService().setGuest();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const HomePage()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    // UI kao što već imaš
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -46,6 +55,11 @@ class LoginPage extends StatelessWidget {
                 ),
                 onPressed: () => login(context),
                 child: const Text("Sign in with Phone Number"),
+              ),
+              const SizedBox(height: 10),
+              TextButton(
+                onPressed: () => loginAsGuest(context),
+                child: const Text("Continue as Guest"),
               ),
               const SizedBox(height: 20),
               Row(
